@@ -1,0 +1,12 @@
+### 登录
+POST http://localhost:8080/api/sys/login
+Content-Type: application/json
+
+{
+  "mobile": "13800000002",
+  "password": "hm#qd@23!"
+}
+
+### 获取用户资料（手动替换下面的token为登录接口返回的实际token）
+GET http://localhost:8080/api/sys/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.uwg-8qLM0bcANoJWRQvXctEHnDEilB8AMplbO2xQRaQ
