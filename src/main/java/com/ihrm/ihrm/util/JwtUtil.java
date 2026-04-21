@@ -6,40 +6,47 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
 
     private static final String KEY = "12345678901234567890123456789012";
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(KEY.getBytes());
+    
+    private static final long EXPIRATION_TIME = 100L * 365 * 24 * 60 * 60 * 1000;
 
     public String createToken(Long userId) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+        
         return Jwts.builder()
                 .setSubject(userId.toString())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
                 .signWith(SECRET_KEY)
                 .compact();
     }
 
-    public Long getUserIdFromToken(String token) {
+    // ==========================
+    // 🔥 自动解构 Bearer，超强容错
+    // ==========================
+    public Long getUserIdFromToken(String authHeader) {
         try {
-            System.out.println("========== Token调试信息 ==========");
-            System.out.println("原始token: [" + token + "]");
-            System.out.println("原始token长度: " + (token == null ? 0 : token.length()));
+            System.out.println("========== Token调试 ==========");
+            System.out.println("收到: " + authHeader);
 
-            if (token == null || token.trim().isEmpty()) {
-                throw new IllegalArgumentException("token不能为空，请先登录获取token");
+            if (authHeader == null || authHeader.isBlank()) {
+                throw new RuntimeException("token不能为空");
             }
 
+            String token = authHeader;
             if (token.startsWith("Bearer ")) {
-                token = token.substring(7);
+                token = token.substring(7).trim();
             }
-
-            System.out.println("处理后的token: [" + token + "]");
-            System.out.println("处理后token长度: " + token.length());
-            System.out.println("========== 调试结束 ==========");
 
             if (token.isEmpty()) {
-                throw new IllegalArgumentException("无效的token格式，请先登录获取有效的token");
+                throw new RuntimeException("token不能为空");
             }
 
             Claims claims = Jwts.parserBuilder()
@@ -49,11 +56,16 @@ public class JwtUtil {
                     .getBody();
 
             return Long.parseLong(claims.getSubject());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e.getMessage());
+
+        } catch (io.jsonwebtoken.JwtException e) {
+            System.err.println("JWT解析失败: " + e.getMessage());
+            throw new RuntimeException("token无效或已过期，请重新登录");
+        } catch (NumberFormatException e) {
+            System.err.println("用户ID格式错误: " + e.getMessage());
+            throw new RuntimeException("token数据异常，请重新登录");
         } catch (Exception e) {
-            System.err.println("Token解析异常: " + e.getClass().getName() + " - " + e.getMessage());
-            throw new RuntimeException("token解析失败，请确认token是否有效");
+            System.err.println("解析失败: " + e.getMessage());
+            throw new RuntimeException("token无效：" + e.getMessage());
         }
     }
 }

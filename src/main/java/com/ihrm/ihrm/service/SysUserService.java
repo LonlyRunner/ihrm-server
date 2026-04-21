@@ -5,4 +5,5 @@ import com.ihrm.ihrm.entity.SysUser;
 
 public interface SysUserService extends IService<SysUser> {
     String login(String mobile, String password);
+    void updatePassword(Long userId, String oldPassword, String newPassword);
 }

@@ -10,3 +10,15 @@ Content-Type: application/json
 ### 获取用户资料（手动替换下面的token为登录接口返回的实际token）
 GET http://localhost:8080/api/sys/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.uwg-8qLM0bcANoJWRQvXctEHnDEilB8AMplbO2xQRaQ
+
+
+> {% client.global.set("token", response.body.data); %}
+### 修改密码
+PUT http://localhost:8080/api/sys/user/updatePass
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "hm#qd@23!",
+  "newPassword": "123456"
+}
