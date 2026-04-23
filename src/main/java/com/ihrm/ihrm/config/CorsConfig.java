@@ -14,7 +14,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         // 允许前端地址
-        config.addAllowedOrigin("http://localhost:9531");
+        config.addAllowedOriginPattern("http://localhost:953*");
         // 允许所有请求头
         config.addAllowedHeader("*");
         // 允许所有请求方式

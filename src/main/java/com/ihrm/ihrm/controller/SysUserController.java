@@ -14,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.transform.Result;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/sys/user")
@@ -130,4 +127,46 @@ public class SysUserController {
         userService.removeById(id);
         return R.success("删除成功");
     }
+
+    // ====================== 6. 获取简单用户列表（用于下拉选择等） ======================
+    @GetMapping("/simple")
+    public R getSimpleUserList() {
+        List<SysUser> userList = userService.lambdaQuery()
+                .select(SysUser::getId, SysUser::getUsername, SysUser::getMobile)
+                .list();
+        return R.success(userList);
+    }
+
+//    新增员工
+@PostMapping
+public R addUser(@RequestBody SysUser user) {
+    // 保存员工
+    boolean save = userService.save(user);
+    if (save) {
+        // 返回格式严格按照文档：data 里只返回 id
+        return R.success(user.getId());
+    }
+    return R.fail("新增失败");
+}
+//得到员工详细信息
+@GetMapping("/{id}")
+public R getUserInfo(@PathVariable String id) {
+    // 1. 查询员工
+    SysUser user = userService.getById(id);
+
+    // 2. 直接返回（字段完全匹配文档）
+    return R.success(user);
+}
+//新增员工
+@PutMapping("/{id}")
+public R updateUser(@PathVariable String id, @RequestBody SysUser user) {
+    // 强制把路径id set进去，保证一致性
+    user.setId(id);
+
+    // 执行更新
+    userService.updateById(user);
+
+    // 按文档要求：返回 { id: 员工ID }
+    return R.success(Map.of("id", id));
+}
 }
