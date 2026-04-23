@@ -26,11 +26,15 @@ public class SysProfileController {
 
     @GetMapping("/profile")
     public R<UserProfile> profile(@RequestHeader("Authorization") String token) {
-        Long userId = jwtUtil.getUserIdFromToken(token);
+        // 1. 直接用 String 获取 userId（不再转 Long）
+        String userId = jwtUtil.getUserIdFromToken(token);
         SysUser user = sysUserService.getById(userId);
 
         UserProfile profile = new UserProfile();
+
+        // 2. 直接 set String，不转 Long！！！
         profile.setUserId(user.getId());
+
         profile.setMobile(user.getMobile());
         profile.setUsername(user.getUsername());
 

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserProfile {
-    private Long userId;              // 用户ID
+    private String userId;              // 用户ID
     private String mobile;            // 手机号
     private String username;          // 用户名
     private UserRoles roles;          // 权限

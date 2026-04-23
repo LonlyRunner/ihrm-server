@@ -20,6 +20,8 @@ mybatis-plus:
       logic-delete-field: is_deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
+      # 强制所有字段使用下划线命名
+      column-format: "`%s`"
 
 # Swagger 接口文档
 springdoc:

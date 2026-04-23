@@ -1,28 +1,30 @@
 package com.ihrm.ihrm.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
 @TableName("sys_user")
-@Schema(description = "用户")
 public class SysUser {
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
-    @Schema(description = "手机号")
+    @TableId(type = IdType.ASSIGN_ID)
+    private String id;
+
     private String mobile;
-
-    @Schema(description = "密码")
-    private String password;
-
     private String username;
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
-    private Integer isDeleted;
+    private String password;
+    private String workNumber;
+    // ✅ 强制指定数据库字段名 departmentId
+    @TableField("departmentId")
+    private String departmentId;
+    private String departmentName;
+
+    private LocalDateTime timeOfEntry;
+    private Integer formOfEmployment;
+    private String staffPhoto;
+    private Integer state;
 }

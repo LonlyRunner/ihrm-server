@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Schema(description = "通用返回结果")
 public class R<T> {
+
     @Schema(description = "响应消息")
     private String message;
 
@@ -18,6 +19,7 @@ public class R<T> {
     @Schema(description = "返回数据")
     private T data;
 
+    // 成功（带数据）
     public static <T> R<T> success(T data) {
         R<T> r = new R<>();
         r.setMessage("操作成功");
@@ -27,6 +29,17 @@ public class R<T> {
         return r;
     }
 
+    // 成功（带消息）
+    public static <T> R<T> success(String message) {
+        R<T> r = new R<>();
+        r.setMessage(message);
+        r.setSuccess(true);
+        r.setCode(10000);
+        r.setData(null);
+        return r;
+    }
+
+    // 失败
     public static <T> R<T> fail(String message) {
         R<T> r = new R<>();
         r.setMessage(message);

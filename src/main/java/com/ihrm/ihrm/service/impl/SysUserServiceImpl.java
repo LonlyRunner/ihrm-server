@@ -2,6 +2,8 @@ package com.ihrm.ihrm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ihrm.ihrm.entity.SysUser;
 import com.ihrm.ihrm.mapper.SysUserMapper;
@@ -35,7 +37,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     // 修改密码
     @Override
-    public void updatePassword(Long userId, String oldPassword, String newPassword) {
+    public void updatePassword(String userId, String oldPassword, String newPassword) {
         SysUser user = this.getById(userId);
 
         if (user == null) {
@@ -50,5 +52,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         updateWrapper.eq(SysUser::getId, userId);
         updateWrapper.set(SysUser::getPassword, newPassword);
         this.update(updateWrapper);
+    }
+    // 得到用户分页列表
+    @Override
+    public IPage<SysUser> getUserPage(Page<SysUser> pageParam, String keyword, String departmentId) {
+        return lambdaQuery()
+                .like(keyword != null, SysUser::getUsername, keyword)
+                .eq(!"0".equals(departmentId), SysUser::getDepartmentId, departmentId)
+                .page(pageParam);
     }
 }

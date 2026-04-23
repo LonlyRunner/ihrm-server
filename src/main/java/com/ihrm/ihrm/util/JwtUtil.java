@@ -13,29 +13,25 @@ public class JwtUtil {
 
     private static final String KEY = "12345678901234567890123456789012";
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(KEY.getBytes());
-    
+
     private static final long EXPIRATION_TIME = 100L * 365 * 24 * 60 * 60 * 1000;
 
-    public String createToken(Long userId) {
+    // 生成 token 传入 String
+    public String createToken(String userId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
-        
+
         return Jwts.builder()
-                .setSubject(userId.toString())
+                .setSubject(userId)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SECRET_KEY)
                 .compact();
     }
 
-    // ==========================
-    // 🔥 自动解构 Bearer，超强容错
-    // ==========================
-    public Long getUserIdFromToken(String authHeader) {
+    // 解析 token 直接返回 String，不再转 Long！！！
+    public String getUserIdFromToken(String authHeader) {
         try {
-            System.out.println("========== Token调试 ==========");
-            System.out.println("收到: " + authHeader);
-
             if (authHeader == null || authHeader.isBlank()) {
                 throw new RuntimeException("token不能为空");
             }
@@ -45,26 +41,16 @@ public class JwtUtil {
                 token = token.substring(7).trim();
             }
 
-            if (token.isEmpty()) {
-                throw new RuntimeException("token不能为空");
-            }
-
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
 
-            return Long.parseLong(claims.getSubject());
+            // ✅ 直接返回 String，不转 Long
+            return claims.getSubject();
 
-        } catch (io.jsonwebtoken.JwtException e) {
-            System.err.println("JWT解析失败: " + e.getMessage());
-            throw new RuntimeException("token无效或已过期，请重新登录");
-        } catch (NumberFormatException e) {
-            System.err.println("用户ID格式错误: " + e.getMessage());
-            throw new RuntimeException("token数据异常，请重新登录");
         } catch (Exception e) {
-            System.err.println("解析失败: " + e.getMessage());
             throw new RuntimeException("token无效：" + e.getMessage());
         }
     }
