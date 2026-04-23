@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -18,12 +19,16 @@ public class SysUser {
     private String username;
     private String password;
     private String workNumber;
-    // ✅ 强制指定数据库字段名 departmentId
     @TableField("departmentId")
     private String departmentId;
     private String departmentName;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private LocalDateTime timeOfEntry;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private LocalDateTime correctionTime;
+    
     private Integer formOfEmployment;
     private String staffPhoto;
     private Integer state;
