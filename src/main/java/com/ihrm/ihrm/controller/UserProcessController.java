@@ -22,8 +22,8 @@ public class UserProcessController {
         return R.success(null);
     }
 
-    // 获取流程详情
-    @GetMapping("/process/instance/{id}")
+    // 获取流程详情（修改路径避免冲突）
+    @GetMapping("/process/detail/{id}")
     public R getApprovalsDetail(@PathVariable String id) {
         return R.success(null);
     }
