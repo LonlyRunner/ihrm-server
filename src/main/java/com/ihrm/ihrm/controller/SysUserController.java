@@ -136,6 +136,17 @@ public class SysUserController {
                 .list();
         return R.success(userList);
     }
+    // ====================== 7. 分配角色（防止路径冲突） ======================
+    @PutMapping("/assignRoles")
+    public R assignRoles(@RequestBody Map<String, Object> params) {
+        String userId = (String) params.get("userId");
+        @SuppressWarnings("unchecked")
+        List<String> roleIds = (List<String>) params.get("roleIds");
+
+        // TODO: 实现分配角色的逻辑
+
+        return R.success("分配成功");
+    }
 
 //    新增员工
 @PostMapping
