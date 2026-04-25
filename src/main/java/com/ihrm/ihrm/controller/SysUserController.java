@@ -25,18 +25,40 @@ public class SysUserController {
 
     // ====================== 1. 员工分页列表（解决之前404） ======================
     @GetMapping
-    public Object getUserPage(
+    public R getUserPage(
             @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pagesize,
+            @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String departmentId
+            @RequestParam(required = false) String departmentId,
+            @RequestParam(required = false) Integer total,
+            @RequestParam(required = false) List<Integer> approvalsTypeChecks,
+            @RequestParam(required = false) List<Integer> approvalsStateChecks,
+            @RequestParam(required = false) List<String> departmentChecks
     ) {
-        IPage<SysUser> iPage = new Page<>(page, pagesize);
+        IPage<SysUser> iPage = new Page<>(page, pageSize);
 
-        return userService.lambdaQuery()
-                .like(keyword != null && !keyword.isEmpty(), SysUser::getUsername, keyword)
-                .eq(departmentId != null && !"0".equals(departmentId), SysUser::getDepartmentId, departmentId)
-                .page(iPage);
+        // 构建查询条件
+        var query = userService.lambdaQuery();
+        
+        // 关键词搜索
+        if (keyword != null && !keyword.isEmpty()) {
+            query.like(SysUser::getUsername, keyword);
+        }
+        
+        // 部门筛选
+        if (departmentId != null && !"0".equals(departmentId)) {
+            query.eq(SysUser::getDepartmentId, departmentId);
+        }
+        
+        // 部门复选框筛选
+        if (departmentChecks != null && !departmentChecks.isEmpty()) {
+            query.in(SysUser::getDepartmentId, departmentChecks);
+        }
+        
+        // 执行查询
+        IPage<SysUser> result = query.page(iPage);
+        
+        return R.success(result);
     }
 
     // ====================== 2. 导出Excel ======================

@@ -1,0 +1,64 @@
+package com.ihrm.ihrm.VO;
+
+import lombok.Data;
+import java.math.BigDecimal;
+
+@Data
+public class SalaryReportVO {
+    private String id;
+    private String archiveId;
+    private String userId;
+    private String username;
+    private String mobile;
+    private String workNumber;
+    private String departmentName;
+    private String idNumber;
+    private String inServiceStatus;
+    private String formOfEmployment;
+    private String bankCardNumber;
+    private String openingBank;
+    private Integer providentFundIndividual;
+    private Integer socialSecurityIndividual;
+    private String oldAgeIndividual;
+    private String medicalIndividual;
+    private String unemployedIndividual;
+    private String socialSecurity;
+    private String totalProvidentFundIndividual;
+    private Integer socialSecurityEnterprise;
+    private String pensionEnterprise;
+    private String medicalEnterprise;
+    private String unemployedEnterprise;
+    private String industrialInjuryEnterprise;
+    private String childbearingEnterprise;
+    private String bigDiseaseEnterprise;
+    private Integer providentFundEnterprises;
+    private Integer socialSecurityProvidentFundEnterprises;
+    private String taxToProvidentFund;
+    private BigDecimal officialSalaryDays;
+    private String attendanceDeductionMonthly;
+    private String salaryStandard;
+    private BigDecimal currentSalaryTotalBase;
+    private Integer currentBaseSalary;
+    private Integer baseSalaryByMonth;
+    private String taxCountingMethod;
+    private String baseSalaryToTaxByMonth;
+    private Integer salaryBeforeTax;
+    private String salary;
+    private BigDecimal salaryByTax;
+    private String paymentBeforeTax;
+    private BigDecimal tax;
+    private String salaryAfterTax;
+    private BigDecimal payment;
+    private String paymentRemark;
+    private String salaryCost;
+    private String enterpriseLaborCost;
+    private BigDecimal salaryChangeAmount;
+    private String salaryChangeScale;
+    private String effectiveTimeOfPayAdjustment;
+    private String causeOfSalaryAdjustment;
+    private String remark;
+    private String paymentMonths;
+    private Integer entTotal;
+    private Integer perTotal;
+    private String apersonOfGreatDisease;
+}
