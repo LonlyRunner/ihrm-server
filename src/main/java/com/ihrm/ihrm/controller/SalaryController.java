@@ -113,7 +113,8 @@ public class SalaryController {
     public R newSalaryReport(
             @PathVariable String yearMonth,
             @RequestHeader(value = "Authorization", required = false) String token) {
-        // 模拟生成工资成功
+        // TODO: 生成新月份工资报表
+        // 示例: salaryMonthReportService.generateNewReport(yearMonth);
         return R.success(null);
     }
 
@@ -124,74 +125,9 @@ public class SalaryController {
             @RequestParam(required = false) String opType,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-        // ======================
-        // 直接返回【前端示例格式】模拟数据
-        // 1:1 匹配你给的 OpenAPI 样例
-        // ======================
-
         List<SalaryReportVO> list = new ArrayList<>();
-
-        // ========== 模拟1条数据（你可以循环生成多条）==========
-        SalaryReportVO vo = new SalaryReportVO();
-        vo.setId(null);
-        vo.setArchiveId(null);
-        vo.setUserId("1235396724497268736");
-        vo.setUsername("吕勇锐");
-        vo.setMobile("13600000001");
-        vo.setWorkNumber("0001");
-        vo.setDepartmentName("总裁办");
-        vo.setIdNumber(null);
-        vo.setInServiceStatus("1");
-        vo.setFormOfEmployment(null);
-        vo.setBankCardNumber(null);
-        vo.setOpeningBank(null);
-        vo.setProvidentFundIndividual(0);
-        vo.setSocialSecurityIndividual(0);
-        vo.setOldAgeIndividual(null);
-        vo.setMedicalIndividual(null);
-        vo.setUnemployedIndividual(null);
-        vo.setSocialSecurity(null);
-        vo.setTotalProvidentFundIndividual(null);
-        vo.setSocialSecurityEnterprise(0);
-        vo.setPensionEnterprise(null);
-        vo.setMedicalEnterprise(null);
-        vo.setUnemployedEnterprise(null);
-        vo.setIndustrialInjuryEnterprise(null);
-        vo.setChildbearingEnterprise(null);
-        vo.setBigDiseaseEnterprise(null);
-        vo.setProvidentFundEnterprises(0);
-        vo.setSocialSecurityProvidentFundEnterprises(0);
-        vo.setTaxToProvidentFund(null);
-        vo.setOfficialSalaryDays(new BigDecimal("21.75"));
-        vo.setAttendanceDeductionMonthly("0.0000");
-        vo.setSalaryStandard(null);
-        vo.setCurrentSalaryTotalBase(new BigDecimal("5546.25"));
-        vo.setCurrentBaseSalary(0);
-        vo.setBaseSalaryByMonth(0);
-        vo.setTaxCountingMethod(null);
-        vo.setBaseSalaryToTaxByMonth(null);
-        vo.setSalaryBeforeTax(0);
-        vo.setSalary(null);
-        vo.setSalaryByTax(new BigDecimal("5546.25"));
-        vo.setPaymentBeforeTax(null);
-        vo.setTax(new BigDecimal("449.625"));
-        vo.setSalaryAfterTax(null);
-        vo.setPayment(new BigDecimal("0"));
-        vo.setPaymentRemark(null);
-        vo.setSalaryCost(null);
-        vo.setEnterpriseLaborCost(null);
-        vo.setSalaryChangeAmount(new BigDecimal("5546.25"));
-        vo.setSalaryChangeScale(null);
-        vo.setEffectiveTimeOfPayAdjustment(null);
-        vo.setCauseOfSalaryAdjustment(null);
-        vo.setRemark(null);
-        vo.setPaymentMonths(null);
-        vo.setEntTotal(0);
-        vo.setPerTotal(0);
-        vo.setApersonOfGreatDisease(null);
-
-        list.add(vo);
-        // ========== 模拟结束 ==========
+        // TODO: 从数据库查询企业用户薪资列表
+        // 示例: list = salaryMonthReportService.getSalaryReportList(yearMonth, opType);
 
         return R.success(list);
     }
@@ -202,15 +138,9 @@ public class SalaryController {
             @PathVariable String userId,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-        // 模拟返回数据（完全匹配你的示例）
         SalaryUserVO vo = new SalaryUserVO();
-        vo.setUserId(userId);
-        vo.setCurrentBasicSalary(8888);
-        vo.setCurrentPostWage(8888);
-        vo.setFixedBasicSalary(8888);
-        vo.setFixedPostWage(8888);
-        vo.setCorrectionOfBasicWages(1234);
-        vo.setTurnToPostWages(1234);
+        // TODO: 从数据库查询用户薪资
+        // 示例: vo = salarySettingsService.getUserSalary(userId);
 
         return R.success(vo);
     }
@@ -222,8 +152,9 @@ public class SalaryController {
             @RequestBody SalaryModifyDTO dto,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-        // 这里可以写业务：保存调薪记录、更新用户工资表
-        // 模拟调薪成功
+        // 保存调薪记录、更新用户工资表
+        // TODO: 实现调薪逻辑
+        // 示例: salarySettingsService.modifySalary(userId, dto);
         return R.success(null);
     }
 
@@ -234,8 +165,9 @@ public class SalaryController {
             @RequestBody SalaryInitDTO dto,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-        // 业务：保存员工初始薪资、转正薪资
-        // 模拟成功
+        // 保存员工初始薪资、转正薪资
+        // TODO: 实现员工定薪逻辑
+        // 示例: salarySettingsService.initSalary(userId, dto);
         return R.success(null);
     }
 
@@ -258,23 +190,10 @@ public class SalaryController {
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-disposition", "attachment;filename*=UTF-8''" + exportFileName);
 
-        // 3. 模拟查询当月工资数据（你可以替换成真实DB查询）
+        // 3. 查询当月工资数据
         List<SalaryMonthExcel> list = new ArrayList<>();
-        SalaryMonthExcel excel = new SalaryMonthExcel();
-        excel.setUserId("1235396724497268736");
-        excel.setUsername("吕勇锐");
-        excel.setMobile("13600000001");
-        excel.setWorkNumber("0001");
-        excel.setDepartmentName("总裁办");
-        excel.setInServiceStatus("在职");
-        excel.setOfficialSalaryDays(new BigDecimal("21.75"));
-        excel.setAttendanceDeductionMonthly("0");
-        excel.setCurrentSalaryTotalBase(new BigDecimal("5546.25"));
-        excel.setCurrentBaseSalary(0);
-        excel.setSalaryByTax(new BigDecimal("5546.25"));
-        excel.setTax(new BigDecimal("449.625"));
-        excel.setPayment(new BigDecimal("0"));
-        list.add(excel);
+        // TODO: 从数据库查询工资数据
+        // 示例: list = salaryMonthReportService.getSalaryDataForExport(yearMonth);
 
         // 4. 写出Excel
         EasyExcel.write(response.getOutputStream(), SalaryMonthExcel.class)

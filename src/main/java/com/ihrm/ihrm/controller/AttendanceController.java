@@ -56,11 +56,9 @@ public class AttendanceController {
     @GetMapping("/archive/{userId}/{yearMonth}")
     public R getAtteArchiveDetail(@PathVariable String userId, @PathVariable String yearMonth) {
         try {
-            // 模拟数据 - 实际项目中应该从数据库查询归档数据
             java.util.Map<String, Object> data = new java.util.HashMap<>();
-            data.put("userId", Integer.parseInt(userId));
-            data.put("actualAtteOfficialDays", "22"); // 实际出勤天数
-            data.put("salaryOfficialDays", "21.75"); // 计薪天数
+            // TODO: 从数据库查询归档数据
+            // 示例: data = attendanceService.getArchiveDetail(userId, yearMonth);
             
             return R.success(data);
         } catch (Exception e) {
@@ -247,37 +245,10 @@ public class AttendanceController {
             finalFileName = java.net.URLEncoder.encode(finalFileName, "UTF-8").replaceAll("\\+", "%");
             response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + finalFileName);
             
-            // 模拟数据 - 实际项目中应该从数据库查询
+            // 查询考勤数据
             java.util.List<Attendance> attendanceList = new java.util.ArrayList<>();
-            
-            // 示例数据
-            Attendance attendance1 = new Attendance();
-            attendance1.setId("1");
-            attendance1.setEmployeeId("1001");
-            attendance1.setEmployeeName("张三");
-            attendance1.setMobile("13800138001");
-            attendance1.setDepartmentId("101");
-            attendance1.setDepartmentName("技术部");
-            attendance1.setAttendanceDate(yearMonth + "01");
-            attendance1.setCheckInTime("09:00");
-            attendance1.setCheckOutTime("18:00");
-            attendance1.setStatus("1"); // 正常
-            attendance1.setRemark("");
-            attendanceList.add(attendance1);
-            
-            Attendance attendance2 = new Attendance();
-            attendance2.setId("2");
-            attendance2.setEmployeeId("1002");
-            attendance2.setEmployeeName("李四");
-            attendance2.setMobile("13800138002");
-            attendance2.setDepartmentId("102");
-            attendance2.setDepartmentName("市场部");
-            attendance2.setAttendanceDate(yearMonth + "02");
-            attendance2.setCheckInTime("09:15");
-            attendance2.setCheckOutTime("17:30");
-            attendance2.setStatus("3"); // 迟到
-            attendance2.setRemark("交通拥堵");
-            attendanceList.add(attendance2);
+            // TODO: 从数据库查询考勤数据
+            // 示例: attendanceList = attendanceService.getAttendanceByMonth(yearMonth, opType);
             
             // 准备数据
             java.util.List<java.util.List<Object>> dataList = new java.util.ArrayList<>();
