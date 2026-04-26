@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @TableName("sys_user")
@@ -24,10 +24,10 @@ public class SysUser {
     private String departmentName;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private LocalDateTime timeOfEntry;
+    private LocalDate timeOfEntry;
     
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private LocalDateTime correctionTime;
+    private LocalDate correctionTime;
     
     private Integer formOfEmployment;
     private String staffPhoto;

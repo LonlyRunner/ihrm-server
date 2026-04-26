@@ -128,7 +128,7 @@ public class SysUserController {
             if (vo.getTimeOfEntry() != null) {
                 user.setTimeOfEntry(vo.getTimeOfEntry().toInstant()
                         .atZone(java.time.ZoneId.systemDefault())
-                        .toLocalDateTime());
+                        .toLocalDate());
             }
             user.setFormOfEmployment(vo.getFormOfEmployment());
             user.setDepartmentId(vo.getDepartmentId());

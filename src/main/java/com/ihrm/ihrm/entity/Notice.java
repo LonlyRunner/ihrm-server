@@ -1,6 +1,7 @@
 package com.ihrm.ihrm.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,11 +18,17 @@ public class Notice {
 
     private String content;
 
-    private Integer type;
-
-    private Integer status;
-
     private LocalDateTime createTime;
 
+    private Integer isRead;
+
     private LocalDateTime updateTime;
+
+    private String imageUrl;
+
+    @TableField(exist = false)
+    private Integer type;
+
+    @TableField(exist = false)
+    private Integer status;
 }
